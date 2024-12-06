@@ -4,31 +4,54 @@ import { storage } from '../lib/storage'
 
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    setTasks(storage.getTasks())
+    try {
+      setTasks(storage.getTasks())
+    } catch (e) {
+      setError('Failed to load tasks')
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   const addTask = (task: CreateTask) => {
-    const newTask = storage.addTask(task)
-    setTasks(prev => [...prev, newTask])
-    return newTask
+    try {
+      const newTask = storage.addTask(task)
+      setTasks(prev => [...prev, newTask])
+      return newTask
+    } catch (e) {
+      setError('Failed to add task')
+      return null
+    }
   }
 
   const updateTask = (id: string, update: UpdateTask) => {
-    const updatedTask = storage.updateTask(id, update)
-    if (updatedTask) {
-      setTasks(prev => prev.map(task => task.id === id ? updatedTask : task))
+    try {
+      const updatedTask = storage.updateTask(id, update)
+      if (updatedTask) {
+        setTasks(prev => prev.map(task => task.id === id ? updatedTask : task))
+      }
+      return updatedTask
+    } catch (e) {
+      setError('Failed to update task')
+      return null
     }
-    return updatedTask
   }
 
   const deleteTask = (id: string) => {
-    const success = storage.deleteTask(id)
-    if (success) {
-      setTasks(prev => prev.filter(task => task.id !== id))
+    try {
+      const success = storage.deleteTask(id)
+      if (success) {
+        setTasks(prev => prev.filter(task => task.id !== id))
+      }
+      return success
+    } catch (e) {
+      setError('Failed to delete task')
+      return false
     }
-    return success
   }
 
   const toggleTask = (id: string) => {
@@ -39,11 +62,16 @@ export function useTasks() {
     return null
   }
 
+  const clearError = () => setError(null)
+
   return {
     tasks,
+    loading,
+    error,
     addTask,
     updateTask,
     deleteTask,
-    toggleTask
+    toggleTask,
+    clearError
   }
 }

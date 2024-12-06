@@ -2,6 +2,10 @@
 
 This project was planned and created as an experiment using an AI agent (Claude) with minimal user input.
 
+## Overview
+
+A simple yet powerful todo application that helps users manage their tasks. It provides a clean interface for creating, organizing, and tracking tasks. The app works offline and stores all data locally in the browser, making it perfect for personal task management without needing to create an account or rely on server connectivity.
+
 ## Features
 
 - Create tasks with title and description

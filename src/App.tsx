@@ -3,7 +3,7 @@ import { TaskList } from './components/TaskList'
 import { useTasks } from './hooks/useTasks'
 
 export function App() {
-  const { tasks, addTask, toggleTask, deleteTask } = useTasks()
+  const { tasks, addTask, toggleTask, deleteTask, updateTask } = useTasks()
 
   return (
     <div className="max-w-2xl mx-auto p-4">
@@ -15,6 +15,7 @@ export function App() {
         tasks={tasks}
         onToggle={toggleTask}
         onDelete={deleteTask}
+        onUpdate={updateTask}
       />
     </div>
   )

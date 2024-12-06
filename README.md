@@ -40,6 +40,12 @@ npm run dev
 npm run build
 ```
 
+4. Run tests:
+```bash
+npm test           # Watch mode
+npm run coverage   # Coverage report
+```
+
 ## Project Structure
 
 ```
